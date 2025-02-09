@@ -1,11 +1,11 @@
 <template>
-  <div class="container pt-[52px] pb-[72px]">
+  <div class="container pt-[24px] md:pt-[52px] pb-[20px] md:pb-[72px]">
     <div class="flex justify-between items-center mb-[22px]">
-      <h3>搜尋結果</h3>
+      <h3 class="sub_title">搜尋結果</h3>
       <div class="flex items-center gap-4">
-        <p>排序</p>
+        <p class="text-[14px]/[19px] text-gray">排序</p>
         <select
-          class="select select-bordered"
+          class="select focus:outline-none"
           v-model="selectedOrder"
           @change="updateOrder"
         >
@@ -17,36 +17,45 @@
         </select>
       </div>
     </div>
-
-    <div v-if="loading">載入中...</div>
-    <div v-else-if="results.length === 0">沒有找到符合條件的結果</div>
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <router-link
-        v-for="item in results"
-        :key="item.AttractionID"
-        :to="`/${category}/details/${item[`${category}ID`]}`"
-        class="block w-full"
-      >
-        <Card :data="item" />
-      </router-link>
+    <div
+      v-if="loading"
+      class="flex justify-center items-center text-gray text-2xl min-h-40"
+    >
+      <font-awesome-icon icon="spinner" spin />
     </div>
-
-    <!-- 分頁 -->
-    <div class="mt-4 flex justify-center gap-4">
-      <button
-        class="btn"
-        :disabled="currentPage === 1"
-        @click="updatePage(currentPage - 1)"
-      >
-        上一頁
-      </button>
-      <button
-        class="btn"
-        @click="updatePage(currentPage + 1)"
-        :disabled="results.length < perPage"
-      >
-        下一頁
-      </button>
+    <div
+      v-else-if="results.length === 0"
+      class="text-[14px]/[19px] md:text-[16px]/[21px]"
+    >
+      沒有找到符合條件的結果
+    </div>
+    <div v-else>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <router-link
+          v-for="item in results"
+          :key="item.AttractionID"
+          :to="`/${category}/details/${item[`${category}ID`]}`"
+          class="block w-full"
+        >
+          <Card :data="item" :horizontal="true" />
+        </router-link>
+      </div>
+      <div class="mt-[31px] md:mt-[52px] flex justify-center gap-4">
+        <button
+          class="btn min-h-0 w-[44px] h-[44px] text-gray bg-white hover:bg-red hover:text-white border-0 font-normal"
+          :disabled="currentPage === 1"
+          @click="updatePage(currentPage - 1)"
+        >
+          <font-awesome-icon icon="angle-left" class="w-[20px] h-[20px]" />
+        </button>
+        <button
+          class="btn min-h-0 w-[44px] h-[44px] text-gray bg-white hover:bg-red hover:text-white border-0 font-normal"
+          @click="updatePage(currentPage + 1)"
+          :disabled="results.length < perPage"
+        >
+          <font-awesome-icon icon="angle-right" class="w-[20px] h-[20px]" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -134,3 +143,13 @@ const updatePage = (page: number) => {
   });
 };
 </script>
+
+<style lang="scss" scoped>
+.sub_title {
+  @apply text-[14px]/[19px] md:text-[20px]/[26px] pl-[8px] relative;
+}
+.sub_title::before {
+  @apply bg-blue absolute top-[-1px] left-0 block w-[4px] h-[21px] md:h-[28px];
+  content: "";
+}
+</style>

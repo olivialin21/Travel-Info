@@ -1,20 +1,31 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen flex flex-col">
     <DetailNavbar />
     <DetailBanner />
-    <main class="container pt-[40px] pb-[60px]">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-[20px] mb-[40px]">
+    <main v-if="data" class="pt-[80px] md:pt-[40px] pb-[32px] md:pb-[60px]">
+      <div
+        class="container md_no_padding grid grid-cols-1 lg:grid-cols-2 mb-[40px]"
+      >
         <DetailCarousel :data="data" />
         <DetailInfo :data="data" />
       </div>
-      <DetailRecommend v-if="data"
+      <DetailRecommend
+        v-if="data"
         :classes="
           data[`${category === 'Restaurant' ? 'Cuisine' : category}Classes`][0]
         "
         :city="data.PostalAddress?.City"
+        class="container mt-8 md:mt-10"
       />
     </main>
-    <Footer />
+    <main
+      v-else
+      class="flex justify-center items-center text-gray text-2xl min-h-40"
+    >
+      <font-awesome-icon icon="spinner" spin />
+    </main>
+    <Footer class="mt-auto" />
+    <BackToTop />
   </div>
 </template>
 
@@ -25,6 +36,7 @@ import DetailCarousel from "@/components/DetailCarousel.vue";
 import DetailInfo from "@/components/DetailInfo.vue";
 import DetailRecommend from "@/components/DetailRecommend.vue";
 import Footer from "@/components/Footer.vue";
+import BackToTop from "@/components/BackToTop.vue";
 
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
@@ -50,3 +62,12 @@ const fetchInfo = async () => {
   }
 };
 </script>
+
+<style scoped>
+@media (max-width: 767px) {
+  .md_no_padding {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+</style>

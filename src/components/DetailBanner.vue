@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-[300px] bg-cover bg-center banner pb-[30px]"
+    class="h-[300px] bg-cover bg-center banner pb-[30px] hidden md:block"
     :data-category="category"
   >
     <div class="container flex flex-col h-full justify-end">
