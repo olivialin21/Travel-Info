@@ -16,7 +16,10 @@ import { useRoute } from "vue-router";
 import { computed } from "vue";
 
 const route = useRoute();
-const category = computed(() => route.params.category);
+const category = computed(() => {
+  const param = route.params.category;
+  return Array.isArray(param) ? param[0] : param; // 確保是 string
+});
 const categories = {
   Attraction: "景點",
   Restaurant: "餐飲",

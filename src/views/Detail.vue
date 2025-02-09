@@ -44,7 +44,10 @@ import { searchCategaryDetail } from "@/api";
 
 const route = useRoute();
 const data = ref(null); // 預設 null，避免 undefined 問題
-const category = computed(() => route.params.category);
+const category = computed(() => {
+  const param = route.params.category;
+  return Array.isArray(param) ? param[0] : param; // 確保是 string
+});
 
 watch([() => route.params.category, () => route.params.id], () => {
   fetchInfo();

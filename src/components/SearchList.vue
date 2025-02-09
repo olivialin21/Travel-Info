@@ -68,7 +68,10 @@ import { useRoute, useRouter } from "vue-router"; // Vue Router
 
 const route = useRoute(); // 當前 URL 資訊
 const router = useRouter(); // 修改 URL
-const category = computed(() => route.params.category);
+const category = computed(() => {
+  const param = route.params.category;
+  return Array.isArray(param) ? param[0] : param; // 確保是 string
+});
 
 const results = ref([]); // API 回傳的結果
 const loading = ref(false);

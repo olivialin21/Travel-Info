@@ -152,7 +152,10 @@ import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
-const category = computed(() => route.params.category);
+const category = computed(() => {
+  const param = route.params.category;
+  return Array.isArray(param) ? param[0] : param; // 確保是 string
+});
 
 const keyword = ref(""); // 關鍵字
 const selectedCity = ref("選擇想去的地區"); // 縣市選擇

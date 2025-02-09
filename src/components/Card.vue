@@ -69,7 +69,10 @@ import { useRoute } from "vue-router";
 import { computed } from "vue";
 
 const route = useRoute(); // 當前 URL 資訊
-const category = computed(() => route.params.category);
+const category = computed(() => {
+  const param = route.params.category;
+  return Array.isArray(param) ? param[0] : param; // 確保是 string
+});
 
 const props = defineProps({
   data: Object,
