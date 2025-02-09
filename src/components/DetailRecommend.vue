@@ -10,7 +10,7 @@
       :slidesPerView="slidesPerView"
       :spaceBetween="spaceBetween"
       :modules="swiperModules"
-      :navigation="{ clickable: true }" 
+      :navigation="navigationOptions as any"
       class="mySwiper"
     >
       <SwiperSlide v-for="item in data" :key="item[`${category}ID`]">
@@ -32,18 +32,24 @@ import { useRoute } from "vue-router";
 import { searchCategary } from "@/api";
 import Card from "./Card.vue";
 import "swiper/css";
-import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 
 const props = defineProps({
   city: String,
   classes: Number,
 });
+
 const route = useRoute();
 const category = computed(() => {
   const param = route.params.category;
-  return Array.isArray(param) ? param[0] : param; // 確保是 string
+  return Array.isArray(param) ? param[0] : param;
 });
+
+const navigationOptions = {
+  enabled: true
+};
+
 const loading = ref(false);
 const data = ref([]);
 const swiperModules = [Navigation];
@@ -51,7 +57,6 @@ const slidesPerView = ref(4);
 const spaceBetween = ref(20);
 const swiperNavigationOffset = ref(70);
 
-// 設置根據視窗大小動態調整 slidesPerView
 const updateSlidesPerView = () => {
   const width = window.innerWidth;
 
@@ -72,11 +77,10 @@ const updateSlidesPerView = () => {
 
 onMounted(() => {
   fetchResults();
-  updateSlidesPerView(); // 初始設置
-  window.addEventListener("resize", updateSlidesPerView); // 監聽視窗大小變動
+  updateSlidesPerView();
+  window.addEventListener("resize", updateSlidesPerView);
 });
 
-// **抓取資料**
 const fetchResults = async () => {
   loading.value = true;
   try {
@@ -127,7 +131,6 @@ const fetchResults = async () => {
 }
 
 .swiper-slide {
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -143,7 +146,7 @@ const fetchResults = async () => {
 
 .swiper-wrapper {
   display: flex;
-  align-items: stretch; /* 拉伸讓每個 slide 高度一致 */
+  align-items: stretch;
 }
 
 .sub_title {
