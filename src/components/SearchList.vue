@@ -1,25 +1,34 @@
 <template>
   <div class="container pt-[52px] pb-[72px]">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center mb-[22px]">
       <h3>搜尋結果</h3>
       <div class="flex items-center gap-4">
         <p>排序</p>
-        <select className="select select-bordered">
-          <option value="name-asc">名稱升冪（A-Z）</option>
-          <option value="name-desc">名稱降冪（Z-A）</option>
-          <option value="update-time-asc">更新時間（遠-近）</option>
-          <option value="update-time-desc">更新時間（近-遠）</option>
+        <select
+          class="select select-bordered"
+          v-model="selectedOrder"
+          @change="updateOrder"
+        >
+          <option value="">預設</option>
+          <option value="Name-asc">名稱升冪（A-Z）</option>
+          <option value="Name-desc">名稱降冪（Z-A）</option>
+          <option value="UpdateTime-asc">更新時間（遠-近）</option>
+          <option value="UpdateTime-desc">更新時間（近-遠）</option>
         </select>
       </div>
     </div>
+
     <div v-if="loading">載入中...</div>
     <div v-else-if="results.length === 0">沒有找到符合條件的結果</div>
-    <div v-else class="grid grid-cols-4 gap-4">
-      <SearchCard
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <router-link
         v-for="item in results"
         :key="item.AttractionID"
-        :data="item"
-      />
+        :to="`/${category}/details/${item[`${category}ID`]}`"
+        class="block w-full"
+      >
+        <Card :data="item" />
+      </router-link>
     </div>
 
     <!-- 分頁 -->
@@ -27,13 +36,13 @@
       <button
         class="btn"
         :disabled="currentPage === 1"
-        @click="fetchResults(currentPage - 1)"
+        @click="updatePage(currentPage - 1)"
       >
         上一頁
       </button>
       <button
         class="btn"
-        @click="fetchResults(currentPage + 1)"
+        @click="updatePage(currentPage + 1)"
         :disabled="results.length < perPage"
       >
         下一頁
@@ -43,74 +52,85 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
-import SearchCard from "./SearchCard.vue";
-import { useTourismStore } from "@/store/tourism";
+import { onMounted, ref, computed, watch } from "vue";
+import Card from "./Card.vue";
 import { searchCategary } from "@/api";
+import { useRoute, useRouter } from "vue-router"; // Vue Router
 
-const store = useTourismStore();
-const props = defineProps(["searchParams"]);
+const route = useRoute(); // 當前 URL 資訊
+const router = useRouter(); // 修改 URL
+const category = computed(() => route.params.category);
 
-const results = ref([]); // 存 API 回傳的搜尋結果
+const results = ref([]); // API 回傳的結果
 const loading = ref(false);
 const perPage = 16;
 const currentPage = ref(1);
+const selectedOrder = ref(""); // 排序條件
 
+// 監聽 URL 變化並更新狀態
 onMounted(() => {
-  fetchResults(currentPage.value);
+  syncStateWithURL();
 });
 
-watch(
-  () => props.searchParams,
-  (newSearchParams, oldSearchParams) => {
-    // 只有當 searchParams 改變時才呼叫 fetchResults
-    if (newSearchParams !== oldSearchParams) {
-      currentPage.value = 1; // 變更搜尋條件時，將頁面重設為第1頁
-      fetchResults(currentPage.value);
-    }
-  },
-  { deep: true } // deep 監聽，當 searchParams 內部的屬性變動時也會觸發
-);
-
-const fetchResults = async (page = 1) => {
+// **抓取資料**
+const fetchResults = async () => {
   loading.value = true;
-  currentPage.value = page;
-
   try {
-    const { city, keyword } = props.searchParams;
+    const { city, keyword, order } = route.query;
 
     let filters = [];
-    if (city.trim() !== "") {
-      filters.push(`PostalAddress/City eq '${city}'`);
-    }
-    if (keyword.trim() !== "") {
-      filters.push(`contains(${store.category}Name,'${keyword}')`);
-    }
+    if (city) filters.push(`PostalAddress/City eq '${city}'`);
+    if (keyword) filters.push(`contains(${category.value}Name, '${keyword}')`);
 
     const filterQuery = filters.length
       ? `$filter=${filters.join(" and ")}`
       : "";
-    const skip = (page - 1) * perPage;
+    const skip = (currentPage.value - 1) * perPage;
 
     const response = await searchCategary(
-      store.category,
+      category.value,
       filterQuery,
       perPage,
-      skip
+      skip,
+      order || ""
     );
-
-    results.value = response.value; // 查詢結果
+    results.value = response.value;
   } catch (error) {
     console.error("搜尋發生錯誤", error);
   } finally {
     loading.value = false;
   }
 };
-</script>
 
-<style scoped>
-.btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-</style>
+// **同步 URL 到狀態**
+const syncStateWithURL = () => {
+  const queryParams = route.query;
+  currentPage.value = Number(queryParams.page) || 1;
+  selectedOrder.value = queryParams.order || "";
+  fetchResults();
+};
+
+watch(
+  () => [category.value, route.query], // 監聽 category 和 query 變化
+  () => {
+    syncStateWithURL();
+  },
+  { immediate: true }
+);
+
+// **更新排序並修改 URL**
+const updateOrder = () => {
+  router.push({
+    path: `/${category.value}`,
+    query: { ...route.query, order: selectedOrder.value, page: 1 },
+  });
+};
+
+// **更新頁碼並修改 URL**
+const updatePage = (page: number) => {
+  router.push({
+    path: `/${category.value}`,
+    query: { ...route.query, page },
+  });
+};
+</script>

@@ -1,19 +1,21 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
-  }
+      "@/*": ["src/*"]
+    },
+    "moduleResolution": "node",  // 使用 node 解析方式
+    "esModuleInterop": true,  // 確保可以導入 es6 模組
+    "skipLibCheck": true,     // 跳過第三方類型檔案的檢查
+    "resolveJsonModule": true, // 支援 JSON 檔案
+    "allowJs": true,          // 支援 JS 檔案
+    "module": "esnext",       // 模組系統為 esnext
+    "target": "esnext"        // 設置編譯目標為 ES2020 或更高
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ]
 }

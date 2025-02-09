@@ -1,7 +1,6 @@
 <template>
   <div class="flex">
-    <SvgIcon name="like" color="#fff" />
-    <button class="btn">我的最愛</button>
+    <button class="btn text-[14px]/[19px] py-[8px] pr-[16px] pl-[12px] min-h-0 h-auto border-0">我的最愛</button>
   </div>
 </template>
 

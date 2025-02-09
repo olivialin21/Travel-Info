@@ -61,9 +61,23 @@ api.interceptors.request.use(
 );
 
 // 使用 api instance 進行 API 請求
-export const searchCategary = async (category: string, filterQuery: string, perPage: number, skip: number) => {
+export const searchCategary = async (category: string, filterQuery: string, perPage: number, skip: number, order: string = "") => {
   try {
-    const response = await api.get(`/${category}?${filterQuery}&$top=${perPage}&$skip=${skip}`);
+    const orderParts = order ? order.split("-") : [];
+    const orderQuery = orderParts.length === 2 ? orderParts[0] === "Name" ? `${category}${orderParts[0]} ${orderParts[1]}` : `${orderParts[0]} ${orderParts[1]}` : ""
+    const orderBy = orderQuery ? `$orderby=${orderQuery}` : "";
+
+    const response = await api.get(`/${category}?${filterQuery}&$top=${perPage}&$skip=${skip}&${orderBy}`);
+    console.log('success: ', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('error: ', error);
+  }
+};
+
+export const searchCategaryDetail = async (category: string, id: string) => {
+  try {
+    const response = await api.get(`/${category}/${id}`);
     console.log('success: ', response.data);
     return response.data;
   } catch (error) {

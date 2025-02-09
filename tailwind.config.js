@@ -7,6 +7,8 @@ export default {
     extend: {
       colors: {
         light_gray: '#F1F1F1', // 自訂主題顏色
+        gray: '#959595',
+        red: '#B72323'
       },
     },
   },

@@ -1,3 +1,9 @@
+<template>
+  <svg :class="svgClass" aria-hidden="true">
+    <use :xlink:href="svgName" :fill="color" />
+  </svg>
+</template>
+
 <script setup>
 import { computed, defineProps } from "vue";
 const props = defineProps({
@@ -24,12 +30,6 @@ const svgClass = computed(() =>
   props.className ? "svg-icon " + props.className : "svg-icon"
 );
 </script>
-
-<template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="svgName" :fill="color" />
-  </svg>
-</template>
 
 <style>
 .svg-icon {
