@@ -10,7 +10,7 @@
           '--swiper-pagination-color': '#fff',
         }"
         :spaceBetween="10"
-        :navigation="true"
+        :navigation="{ clickable: true }"
         :thumbs="{ swiper: thumbsSwiper }"
         :modules="swiperModules"
         class="mySwiper2"

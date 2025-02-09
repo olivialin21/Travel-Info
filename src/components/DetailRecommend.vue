@@ -9,8 +9,8 @@
       }"
       :slidesPerView="slidesPerView"
       :spaceBetween="spaceBetween"
-      :navigation="true"
       :modules="swiperModules"
+      :navigation="{ clickable: true }" 
       class="mySwiper"
     >
       <SwiperSlide v-for="item in data" :key="item[`${category}ID`]">
