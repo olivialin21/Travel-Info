@@ -5,6 +5,7 @@
       :style="{
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
+        '--swiper-navigation-sides-offset': swiperNavigationOffset + 'px',
       }"
       :slidesPerView="slidesPerView"
       :spaceBetween="spaceBetween"
@@ -48,6 +49,7 @@ const data = ref([]);
 const swiperModules = [Navigation];
 const slidesPerView = ref(4);
 const spaceBetween = ref(20);
+const swiperNavigationOffset = ref(70);
 
 // 設置根據視窗大小動態調整 slidesPerView
 const updateSlidesPerView = () => {
@@ -56,12 +58,15 @@ const updateSlidesPerView = () => {
   if (width >= 1024) {
     slidesPerView.value = 4;
     spaceBetween.value = 20;
+    swiperNavigationOffset.value = 70;
   } else if (width >= 768) {
     slidesPerView.value = 3;
     spaceBetween.value = 10;
+    swiperNavigationOffset.value = 70;
   } else {
     slidesPerView.value = 2;
     spaceBetween.value = 10;
+    swiperNavigationOffset.value = 30;
   }
 };
 

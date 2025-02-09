@@ -89,6 +89,7 @@ const fetchResults = async () => {
   loading.value = true;
   try {
     const { city, keyword, order } = route.query;
+    const orderQuery = Array.isArray(order) ? order[0] : order ?? "";
 
     let filters = [];
     if (city) filters.push(`PostalAddress/City eq '${city}'`);
@@ -104,7 +105,7 @@ const fetchResults = async () => {
       filterQuery,
       perPage,
       skip,
-      order || ""
+      orderQuery
     );
     results.value = response.value;
   } catch (error) {
@@ -118,7 +119,8 @@ const fetchResults = async () => {
 const syncStateWithURL = () => {
   const queryParams = route.query;
   currentPage.value = Number(queryParams.page) || 1;
-  selectedOrder.value = queryParams.order || "";
+  const order = queryParams.order;
+  selectedOrder.value = Array.isArray(order) ? order[0] : order ?? "";
   fetchResults();
 };
 

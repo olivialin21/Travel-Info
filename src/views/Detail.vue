@@ -48,6 +48,10 @@ const category = computed(() => {
   const param = route.params.category;
   return Array.isArray(param) ? param[0] : param; // 確保是 string
 });
+const id = computed(() => {
+  const param = route.params.id;
+  return Array.isArray(param) ? param[0] : param; // 確保是 string
+});
 
 watch([() => route.params.category, () => route.params.id], () => {
   fetchInfo();
@@ -59,7 +63,7 @@ onMounted(() => {
 
 const fetchInfo = async () => {
   try {
-    data.value = await searchCategaryDetail(category.value, route.params.id);
+    data.value = await searchCategaryDetail(category.value, id.value);
   } catch (error) {
     console.error("獲取詳細資料失敗", error);
   }
