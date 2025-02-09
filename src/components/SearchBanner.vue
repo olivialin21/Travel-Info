@@ -232,31 +232,18 @@ const handleSearch = () => {
 <style lang="scss" scoped>
 .banner[data-category="Attraction"] {
   background-image: url("/banner_attraction.png"); /* 預設圖片 */
-  background-image: image-set(
-    url("/banner_attraction.png") 1x,
-    url("/banner_attraction@2x.png") 2x
-  ); /* 根據解析度選擇圖片 */
 }
 
 /* 針對不同的類別設定背景圖 */
 .banner[data-category="Restaurant"] {
-  background-image: image-set(
-    url("/banner_restaurant.png") 1x,
-    url("/banner_restaurant@2x.png") 2x
-  );
+  background-image: url("/banner_restaurant.png");
 }
 
 .banner[data-category="Hotel"] {
-  background-image: image-set(
-    url("/banner_hotel.png") 1x,
-    url("/banner_hotel@2x.png") 2x
-  );
+  background-image: url("/banner_hotel.png");
 }
 
 .banner[data-category="Event"] {
-  background-image: image-set(
-    url("/banner_event.png") 1x,
-    url("/banner_event@2x.png") 2x
-  );
+  background-image: url("/banner_event.png");
 }
 </style>
