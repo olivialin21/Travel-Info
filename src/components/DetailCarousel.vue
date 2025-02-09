@@ -44,7 +44,7 @@
   </div>
   <div v-else class="lg:mr-[20px]">
     <img
-      class="hidden lg:block w-full object-cover object-center"
+      class="hidden lg:block w-full object-cover object-center rounded-lg"
       src="/img_notFound.png"
       alt="notFound"
     />
