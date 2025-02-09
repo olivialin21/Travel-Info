@@ -1,5 +1,87 @@
-# Vue 3 + TypeScript + Vite
+# [Travel Info 台灣觀光資訊查詢網](https://travel-info-three.vercel.app/)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### 介紹
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+這是一個使用 **Vue3 + TypeScript** 開發的台灣觀光資訊查詢網站，串接 **TDX（運輸資料流通服務）API** 以提供各縣市景點、餐飲、旅宿與活動查詢。網站採用 **RWD 響應式排版**，無論在手機、平板或電腦上都能提供良好的使用體驗。
+
+> 題目參考自 [六角學院 THE F2E 3rd](https://2021.thef2e.com/) 活動【關卡一 - 台灣旅遊景點導覽】。
+
+---
+
+### 功能
+
+#### 搜尋頁：
+- **選擇類別查詢：** 可選擇要查詢景點、餐飲、旅宿或活動資訊。
+- **縣市篩選：** 可依照縣市篩選資訊。
+- **關鍵字搜尋：** 可透過關鍵字搜尋資料。
+- **資料排序：** 資料結果可透過下拉選單選擇排序方式。
+
+#### 詳細頁：
+- **提供景點相關資訊建議：** 下方會提供與選擇項目有關聯（同個縣市、同樣類別）的其他推薦項目。 
+
+---
+
+### 作者
+
+- **UI/UX 設計：** [Frank Peng](https://2021.thef2e.com/users/6296432819610583736?week=1&type=1)
+- **前端開發：** [Olivia Lin](https://github.com/olivialin21)
+
+---
+
+### 使用技術
+
+*   **前端框架：** Vue3
+*   **程式語言：** TypeScript
+*   **資料請求：** Axios
+*   **樣式框架：** Tailwind CSS、DaisyUI
+*   **輪播套件：** Swiper
+*   **API 來源：** [TDX（運輸資料流通服務）API - 觀光資訊資料庫開放資料](https://tdx.transportdata.tw/api-service/swagger/tourism/0aed433a-9e95-404d-974c-4e70e29ae460#/)
+
+---
+
+### 執行方式
+
+1.  **Clone 專案：**
+
+    ```bash
+    git clone https://github.com/olivialin21/Travel-Info.git
+    ```
+
+2.  **安裝依賴：**
+
+    ```bash
+    cd Travel-Info
+    npm install
+    ```
+
+3.  **啟動開發伺服器：**
+
+    ```bash
+    npm run dev
+    ```
+
+4.  **開啟瀏覽器：**
+
+    開啟瀏覽器，輸入 http://localhost:5173 或 http://127.0.0.1:5173 以查看網站。
+
+---
+
+### 未來展望
+
+- **新增收藏功能：**  
+  使用者可以將有興趣的景點、餐廳、旅宿或活動加入收藏清單，方便日後快速查找。  
+  
+- **優化 SEO：**  
+  目前為 Vue3 單頁應用程式（SPA），雖然載入速度快，但搜尋引擎索引較為困難。未來考慮改用 **Nuxt**，讓搜尋引擎可以更完整地解析網站內容，提高搜尋排名與點擊率。  
+
+---
+
+### 小小小心得
+
+2021 年大學剛學前端不久的我，曾經挑戰在一週內用 React 完成這個題目，結果只完成搜尋頁的類別查詢功能，無法篩選、排序和換頁，而且只有網頁版。
+
+2025 年以前端工程師的身分工作將滿一年的我，已經可以在兩天之內用 Vue 讓網頁具備完整的功能，甚至包含 RWD，肉眼可見的進步真的讓我好有成就感呀。
+
+相隔了快四年，我依舊在做相同的事情，依舊樂在其中，我真是個幸運的人。
+
+-- 2025/2/9 Olivia Lin
