@@ -10,13 +10,18 @@
           '--swiper-pagination-color': '#fff',
         }"
         :spaceBetween="10"
-        :navigation="{ clickable: true }"
+        :navigation="navigationOptions as any"
         :thumbs="{ swiper: thumbsSwiper }"
         :modules="swiperModules"
         class="mySwiper2"
       >
         <SwiperSlide v-for="img in data.Images" :key="img.URL">
-          <img :src="img.URL" :alt="img.Description" />
+          <img
+            :src="img.URL"
+            :alt="img.Description"
+            @error="handleImgError"
+            class="bg-medium_gray"
+          />
         </SwiperSlide>
       </Swiper>
 
@@ -24,13 +29,18 @@
         @swiper="setThumbsSwiper"
         :spaceBetween="10"
         :slidesPerView="3"
-        :freeMode="true"
+        :freeMode="true as any"
         :watchSlidesProgress="true"
         :modules="swiperModules"
         class="mySwiper"
       >
         <SwiperSlide v-for="img in data.Images" :key="img.URL">
-          <img :src="img.URL" :alt="img.Description" />
+          <img
+            :src="img.URL"
+            :alt="img.Description"
+            @error="handleImgError"
+            class="bg-medium_gray"
+          />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -44,14 +54,14 @@
   </div>
   <div v-else class="lg:mr-[20px]">
     <img
-      class="hidden lg:block w-full object-cover object-center rounded-lg"
+      class="hidden lg:block w-full object-cover object-center rounded-lg bg-medium_gray"
       src="/img_notFound.png"
       alt="notFound"
     />
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, computed } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
@@ -62,10 +72,14 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 const props = defineProps({ data: Object });
 
-// 避免 data 為 null 時出錯
-const images = computed(
-  () => props.data?.Images ?? [{ URL: "/img_notFound.png" }]
-);
+const navigationOptions = {
+  enabled: true,
+};
+
+const handleImgError = (event: Event) => {
+  const target = event.target as HTMLImageElement;
+  target.src = "/img_notFound.png";
+};
 
 const thumbsSwiper = ref(null);
 const setThumbsSwiper = (swiper) => {

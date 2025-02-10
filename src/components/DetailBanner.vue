@@ -30,20 +30,23 @@ const categories = {
 
 <style lang="scss" scoped>
 .banner[data-category="Attraction"] {
+  background-color: #a3c7e6;
   background-image: url("/background_attraction.png"); /* 預設圖片 */
 }
 
 /* 針對不同的類別設定背景圖 */
 .banner[data-category="Restaurant"] {
+  background-color: #f7883c;
   background-image: url("/background_restaurant.png");
 }
 
 .banner[data-category="Hotel"] {
+  background-color: #362932;
   background-image: url("/background_hotel.png");
 }
 
 .banner[data-category="Event"] {
+  background-color: #b3daf6;
   background-image: url("/background_event.png");
 }
-
 </style>

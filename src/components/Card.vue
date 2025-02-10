@@ -5,7 +5,7 @@
       { 'grid grid-cols-12 md:block ': horizontal },
     ]"
   >
-    <figure :class="['rounded-none', { 'col-span-5': horizontal }]">
+    <figure :class="['rounded-none bg-medium_gray', { 'col-span-5': horizontal }]">
       <img
         class="w-full object-cover object-center group-hover:scale-110 transition-all duration-300 h-[128px] md:h-[190px]"
         :src="props.data.Images[0]?.URL || '/img_notFound.png'"
